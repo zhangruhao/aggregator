@@ -17,20 +17,48 @@ from push import PushTo
 
 @dataclass
 class TaskConfig:
+    # 任务名
     name: str
+
+    # subconverter程序名
     bin_name: str
+
+    # 网址域名
     domain: str = ""
+
+    # 订阅地址
     sub: str = ""
+
+    # 任务编号
     index: int = 1
+
+    # 失败重试次数
     retry: int = 3
+
+    # 最高允许倍率
     rate: float = 3.0
+
+    # 标签
     tag: str = ""
+
+    # 套餐续期配置
     renew: dict = None
+
+    # 节点重命名规则
     rename: str = ""
+
+    # 节点排除规则
     exclude: str = ""
     include: str = ""
+
+    # 是否检测节点存活状态
     liveness: bool = True
+
+    # skip-cert-verify
     allow_insecure: bool = False
+
+    # 覆盖subconverter默认exclude规则
+    ignorede: bool = False
 
 
 def execute(task_conf: TaskConfig) -> list:
@@ -58,13 +86,14 @@ def execute(task_conf: TaskConfig) -> list:
 
     cookie, authorization = obj.get_subscribe(retry=task_conf.retry)
     proxies = obj.parse(
-        cookie,
-        authorization,
-        task_conf.retry,
-        task_conf.rate,
-        task_conf.bin_name,
-        task_conf.tag,
-        task_conf.allow_insecure,
+        cookie=cookie,
+        auth=authorization,
+        retry=task_conf.retry,
+        rate=task_conf.rate,
+        bin_name=task_conf.bin_name,
+        tag=task_conf.tag,
+        allow_insecure=task_conf.allow_insecure,
+        ignore_exclude=task_conf.ignorede,
     )
 
     logger.info(

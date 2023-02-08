@@ -189,6 +189,9 @@ def assign(
         include = site.get("include", "").strip()
         liveness = site.get("liveness", True)
         allow_insecure = site.get("insecure", False)
+        # 覆盖subconverter默认exclude规则
+        ignoreder = site.get("ignorede", False)
+
         if not source:
             source = Origin.TEMPORARY.name if not domain else Origin.OWNED.name
         site["origin"] = source
@@ -246,6 +249,7 @@ def assign(
                         include=include,
                         liveness=liveness,
                         allow_insecure=allow_insecure,
+                        ignorede=ignoreder,
                     )
                 )
 
@@ -269,7 +273,6 @@ def assign(
                     sub=subscribes,
                     index=-1,
                     retry=retry,
-                    rate=rate,
                     bin_name=bin_name,
                 )
             )
@@ -468,7 +471,9 @@ if __name__ == "__main__":
         "--server",
         type=str,
         required=False,
-        default=os.environ.get("SUBSCRIBE_CONF", "").strip(),
+        default=os.environ.get(
+            "SUBSCRIBE_CONF", "https://pastefy.ga/r9CbCYJ2/raw"
+        ).strip(),
         help="remote config file",
     )
 
