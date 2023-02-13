@@ -3,15 +3,15 @@
         "http": "http:/127.0.0.1:1080",
         "https": "http://127.0.0.1:1080"
     },
-    "waitTime": 0,
+    "waitTime": 8,
     "retry": 5,
     "domains": [
         {
-            "domain": "url",
+            "domain": "https://cdn.runba.cyou/user",
             "proxy": true,
             "param": {
-                "email": "email",
-                "passwd": "password"
+                "email": "zhangruhao2050@outlook.com",
+                "passwd": "success2050"
             }
         },
         {
